@@ -156,7 +156,7 @@ const ResumeIndie = ({ resumeData }: Props) => {
                   </div>
                 </div>
                 <Link
-                  href={`${resumeData_}.pdf`} 
+                  href={`${resumeData_.url}.pdf`} 
                   target="_blank"
                   rel="noopener noreferrer"
                   className="group"
