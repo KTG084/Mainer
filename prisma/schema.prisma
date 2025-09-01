@@ -1,0 +1,101 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id            String    @id @default(uuid())
+  email         String    @unique
+  schId         String?   @unique
+  emailVerified DateTime?
+  password      String?
+  image         String?
+  name          String?
+
+  batch  Int?
+  rollNo Int?
+  branch Branch?
+
+  createdAt DateTime  @default(now())
+  Resumes   Resumes[]
+  Account   Account[]
+}
+
+model Account {
+  id                String  @id @default(cuid()) @map("_id")
+  userId            String
+  type              String
+  provider          String
+  providerAccountId String
+  refresh_token     String?
+  access_token      String?
+  expires_at        Int?
+  token_type        String?
+  scope             String?
+  id_token          String?
+  session_state     String?
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([provider, providerAccountId])
+}
+
+model Resumes {
+  id               String             @id @default(uuid())
+  user             User               @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId           String
+  ats              Float
+  url              String?
+  ResumeEvaluation ResumeEvaluation[]
+}
+
+enum Branch {
+  CE
+  ME
+  EE
+  EIE
+  ECE
+  CSE
+}
+
+model ResumeEvaluation {
+  id       String @id @default(cuid())
+  filename String
+  url      String
+
+  status String
+
+  overallPercentage    Float
+  compatibilityLevel   String
+  keywordsFound        Int
+  totalKeywordsChecked Int
+
+  categoryBreakdown Json
+  foundKeywords     Json
+
+  academicPerformance Json
+
+  detailedFeedback String
+  sourceChunks     Int
+
+  summary         Json
+  percentileRank  String
+  industryAverage String
+
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  resume    Resumes @relation(fields: [resumesId], references: [id], onDelete: Cascade)
+  resumesId String
+}
