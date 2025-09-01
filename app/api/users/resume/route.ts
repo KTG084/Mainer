@@ -82,7 +82,7 @@ export async function POST(req: NextRequest) {
       {
         resource_type: "raw",
         folder: "resumes",
-        public_id: `resume_${Date.now()}_${session?.user.name}.pdf`,
+        public_id: `resume_${session?.user.name}`,
       },
       (error, result) => {
         if (error) return reject(error);
