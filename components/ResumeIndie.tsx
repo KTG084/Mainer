@@ -178,6 +178,7 @@ const ResumeIndie = ({ resumeData }: Props) => {
                       <File className="w-4 h-4" />
                       Download Resume
                     </span>
+                    <span>ADD .pdf to the file before downloading </span>
                   </button>
                 </a>
               </div>
