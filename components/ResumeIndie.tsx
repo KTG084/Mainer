@@ -44,7 +44,7 @@ interface SummaryData {
 const ResumeIndie = ({ resumeData }: Props) => {
   const resumeData_ = useMemo(() => resumeData, [resumeData]);
   const router = useRouter();
-  
+
   if (!resumeData_) {
     return (
       <div className="min-h-screen bg-gradient-to-br from-slate-900 via-gray-900 to-slate-900 flex items-center justify-center px-4">
@@ -71,27 +71,39 @@ const ResumeIndie = ({ resumeData }: Props) => {
       </div>
     );
   }
-  
+
   const getAcademicPerformance = (): AcademicPerformance => {
-    if (typeof resumeData_.academicPerformance === "object" && resumeData_.academicPerformance !== null) {
+    if (
+      typeof resumeData_.academicPerformance === "object" &&
+      resumeData_.academicPerformance !== null
+    ) {
       return resumeData_.academicPerformance as AcademicPerformance;
     }
     return {};
   };
   const getSummaryData = (): SummaryData => {
-    if (typeof resumeData_.summary === "object" && resumeData_.summary !== null) {
+    if (
+      typeof resumeData_.summary === "object" &&
+      resumeData_.summary !== null
+    ) {
       return resumeData_.summary as SummaryData;
     }
     return {};
   };
   const getCategoryBreakdown = (): Record<string, number> => {
-    if (typeof resumeData_.categoryBreakdown === "object" && resumeData_.categoryBreakdown !== null) {
+    if (
+      typeof resumeData_.categoryBreakdown === "object" &&
+      resumeData_.categoryBreakdown !== null
+    ) {
       return resumeData_.categoryBreakdown as Record<string, number>;
     }
     return {};
   };
   const getFoundKeywords = (): Record<string, number> => {
-    if (typeof resumeData_.foundKeywords === "object" && resumeData_.foundKeywords !== null) {
+    if (
+      typeof resumeData_.foundKeywords === "object" &&
+      resumeData_.foundKeywords !== null
+    ) {
       return resumeData_.foundKeywords as Record<string, number>;
     }
     return {};
@@ -156,7 +168,7 @@ const ResumeIndie = ({ resumeData }: Props) => {
                   </div>
                 </div>
                 <Link
-                  href={`${resumeData_.url}.pdf`} 
+                  href={`${resumeData_.url}.pdf`}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="group"
@@ -400,23 +412,21 @@ const ResumeIndie = ({ resumeData }: Props) => {
                     Found Keywords
                   </h3>
                   <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-                    {Object.entries(foundKeywords).map(
-                      ([keyword, count]) => (
-                        <div
-                          key={keyword}
-                          className="flex justify-between items-center p-4 rounded-xl bg-gradient-to-r from-slate-500/10 to-slate-400/5 border border-slate-500/20 shadow-inner hover:from-slate-500/15 hover:to-slate-400/10 transition-all duration-300"
-                        >
-                          <span className="font-semibold text-slate-200 capitalize">
-                            {keyword}
+                    {Object.entries(foundKeywords).map(([keyword, count]) => (
+                      <div
+                        key={keyword}
+                        className="flex justify-between items-center p-4 rounded-xl bg-gradient-to-r from-slate-500/10 to-slate-400/5 border border-slate-500/20 shadow-inner hover:from-slate-500/15 hover:to-slate-400/10 transition-all duration-300"
+                      >
+                        <span className="font-semibold text-slate-200 capitalize">
+                          {keyword}
+                        </span>
+                        <div className="px-3 py-1 rounded-lg bg-gradient-to-r from-slate-600/30 to-slate-500/20 border border-slate-400/30">
+                          <span className="text-slate-300 font-bold">
+                            {count}
                           </span>
-                          <div className="px-3 py-1 rounded-lg bg-gradient-to-r from-slate-600/30 to-slate-500/20 border border-slate-400/30">
-                            <span className="text-slate-300 font-bold">
-                              {count}
-                            </span>
-                          </div>
                         </div>
-                      )
-                    )}
+                      </div>
+                    ))}
                   </div>
                 </div>
               </div>
@@ -545,56 +555,62 @@ const ResumeIndie = ({ resumeData }: Props) => {
                   </div>
                 </div>
                 <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-                  {summaryData.strengths && Array.isArray(summaryData.strengths) && summaryData.strengths.length > 0 && (
-                    <div>
-                      <h3 className="text-xl font-bold text-slate-200 mb-4 flex items-center gap-3">
-                        <div className="p-2 rounded-xl bg-gradient-to-br from-green-400/20 to-green-500/10">
-                          <CheckCircle className="w-5 h-5 text-green-400" />
-                        </div>
-                        Strengths
-                      </h3>
-                      <div className="space-y-3">
-                        {summaryData.strengths.map((strength, index) => (
-                          <div
-                            key={index}
-                            className="flex items-center gap-3 p-4 rounded-xl bg-gradient-to-r from-green-500/10 to-green-400/5 border border-green-500/20 shadow-inner hover:from-green-500/15 hover:to-green-400/10 transition-all duration-300"
-                          >
-                            <div className="p-1.5 rounded-lg bg-gradient-to-br from-green-400/30 to-green-500/20">
-                              <Star className="w-4 h-4 text-green-400" />
-                            </div>
-                            <span className="font-medium text-green-200">
-                              {strength}
-                            </span>
+                  {summaryData.strengths &&
+                    Array.isArray(summaryData.strengths) &&
+                    summaryData.strengths.length > 0 && (
+                      <div>
+                        <h3 className="text-xl font-bold text-slate-200 mb-4 flex items-center gap-3">
+                          <div className="p-2 rounded-xl bg-gradient-to-br from-green-400/20 to-green-500/10">
+                            <CheckCircle className="w-5 h-5 text-green-400" />
                           </div>
-                        ))}
-                      </div>
-                    </div>
-                  )}
-                  {summaryData.areas_for_improvement && Array.isArray(summaryData.areas_for_improvement) && summaryData.areas_for_improvement.length > 0 && (
-                    <div>
-                      <h3 className="text-xl font-bold text-slate-200 mb-4 flex items-center gap-3">
-                        <div className="p-2 rounded-xl bg-gradient-to-br from-orange-400/20 to-orange-500/10">
-                          <AlertCircle className="w-5 h-5 text-orange-400" />
-                        </div>
-                        Areas for Improvement
-                      </h3>
-                      <div className="space-y-3">
-                        {summaryData.areas_for_improvement.map((area, index) => (
-                          <div
-                            key={index}
-                            className="flex items-center gap-3 p-4 rounded-xl bg-gradient-to-r from-orange-500/10 to-orange-400/5 border border-orange-500/20 shadow-inner hover:from-orange-500/15 hover:to-orange-400/10 transition-all duration-300"
-                          >
-                            <div className="p-1.5 rounded-lg bg-gradient-to-br from-orange-400/30 to-orange-500/20">
-                              <TrendingUp className="w-4 h-4 text-orange-400" />
+                          Strengths
+                        </h3>
+                        <div className="space-y-3">
+                          {summaryData.strengths.map((strength, index) => (
+                            <div
+                              key={index}
+                              className="flex items-center gap-3 p-4 rounded-xl bg-gradient-to-r from-green-500/10 to-green-400/5 border border-green-500/20 shadow-inner hover:from-green-500/15 hover:to-green-400/10 transition-all duration-300"
+                            >
+                              <div className="p-1.5 rounded-lg bg-gradient-to-br from-green-400/30 to-green-500/20">
+                                <Star className="w-4 h-4 text-green-400" />
+                              </div>
+                              <span className="font-medium text-green-200">
+                                {strength}
+                              </span>
                             </div>
-                            <span className="font-medium text-orange-200">
-                              {area}
-                            </span>
-                          </div>
-                        ))}
+                          ))}
+                        </div>
                       </div>
-                    </div>
-                  )}
+                    )}
+                  {summaryData.areas_for_improvement &&
+                    Array.isArray(summaryData.areas_for_improvement) &&
+                    summaryData.areas_for_improvement.length > 0 && (
+                      <div>
+                        <h3 className="text-xl font-bold text-slate-200 mb-4 flex items-center gap-3">
+                          <div className="p-2 rounded-xl bg-gradient-to-br from-orange-400/20 to-orange-500/10">
+                            <AlertCircle className="w-5 h-5 text-orange-400" />
+                          </div>
+                          Areas for Improvement
+                        </h3>
+                        <div className="space-y-3">
+                          {summaryData.areas_for_improvement.map(
+                            (area, index) => (
+                              <div
+                                key={index}
+                                className="flex items-center gap-3 p-4 rounded-xl bg-gradient-to-r from-orange-500/10 to-orange-400/5 border border-orange-500/20 shadow-inner hover:from-orange-500/15 hover:to-orange-400/10 transition-all duration-300"
+                              >
+                                <div className="p-1.5 rounded-lg bg-gradient-to-br from-orange-400/30 to-orange-500/20">
+                                  <TrendingUp className="w-4 h-4 text-orange-400" />
+                                </div>
+                                <span className="font-medium text-orange-200">
+                                  {area}
+                                </span>
+                              </div>
+                            )
+                          )}
+                        </div>
+                      </div>
+                    )}
                 </div>
                 <div className="space-y-6 mt-8">
                   <h3 className="text-xl font-bold text-slate-200 mb-4 flex items-center gap-3">
@@ -623,8 +639,8 @@ const ResumeIndie = ({ resumeData }: Props) => {
                         </div>
                       </div>
                       <p className="text-gray-300/80 leading-relaxed">
-                        Typical ATS compatibility range for software
-                        engineering positions
+                        Typical ATS compatibility range for software engineering
+                        positions
                       </p>
                     </div>
                   )}
