@@ -80,7 +80,7 @@ export async function POST(req: NextRequest) {
   const uploadResult = await new Promise<any>((resolve, reject) => {
     const stream = cloudinary.uploader.upload_stream(
       {
-        resource_type: "auto",
+        resource_type: "raw",
         folder: "resumes",
         public_id: `resume_${Date.now()}`,
       },
