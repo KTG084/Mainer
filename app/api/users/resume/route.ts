@@ -42,6 +42,7 @@ export async function POST(req: NextRequest) {
   let atsData;
 
   try {
+    
     const fastApiServer = process.env.FASTAPI_SERVER;
     if (!fastApiServer) {
       throw new Error("FASTAPI_SERVER environment variable is not defined");
@@ -96,9 +97,7 @@ export async function POST(req: NextRequest) {
       user: {
         connect: { email: session?.user.email },
       },
-      url: uploadResult.secure_url.endsWith(".pdf")
-        ? uploadResult.secure_url
-        : uploadResult.secure_url + ".pdf",
+      url: uploadResult.secure_url,
       ats: atsData.ats_score.overall_percentage,
     },
   });
@@ -106,9 +105,7 @@ export async function POST(req: NextRequest) {
   await prisma.resumeEvaluation.create({
     data: {
       filename: atsData.filename,
-      url: uploadResult.secure_url.endsWith(".pdf")
-        ? uploadResult.secure_url
-        : uploadResult.secure_url + ".pdf",
+      url: uploadResult.secure_url,
       status: atsData.status,
       overallPercentage: atsData.ats_score.overall_percentage,
       compatibilityLevel: atsData.ats_score.compatibility_level,
