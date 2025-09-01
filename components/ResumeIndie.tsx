@@ -14,7 +14,6 @@ import {
   BookOpen,
   MessageSquare,
 } from "lucide-react";
-import Link from "next/link";
 import { Avatar, AvatarImage } from "./ui/avatar";
 import { GeneratedAvatar } from "./GeneratedAvatar";
 type ResumeData = Prisma.ResumeEvaluationGetPayload<{
@@ -167,7 +166,7 @@ const ResumeIndie = ({ resumeData }: Props) => {
                     </p>
                   </div>
                 </div>
-                <Link
+                <a
                   href={`${resumeData_.url}.pdf`}
                   target="_blank"
                   rel="noopener noreferrer"
@@ -180,7 +179,7 @@ const ResumeIndie = ({ resumeData }: Props) => {
                       Download Resume
                     </span>
                   </button>
-                </Link>
+                </a>
               </div>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
                 <div className="space-y-4">
