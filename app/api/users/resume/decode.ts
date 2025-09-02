@@ -14,11 +14,11 @@ export default function decodeScholar(schId: string): ScholarDetails {
 
   const branchMap: Record<string, Branch> = {
     "11": Branch.CE,
-    "15": Branch.ME,
+    "15": Branch.EIE,
     "13": Branch.EE,
     "12": Branch.CSE,
     "14": Branch.ECE,
-    "16": Branch.EIE,
+    "16": Branch.ME,
   };
 
   return {
