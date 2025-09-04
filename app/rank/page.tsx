@@ -1,22 +1,8 @@
 import RankLeaderboard from "@/components/RankLeaderboard";
-import { prisma } from "@/db/prisma";
-
+import { fetchandCache } from "./fetchRank";
 
 export default async function Rank() {
-  const resumes = await prisma.resumes.findMany({
-    orderBy: { ats: "desc" },
-    include: {
-      user: {
-        select: {
-          name: true,
-          schId: true,
-          branch: true,
-          batch: true,
-          image: true,
-        },
-      },
-    },
-  });
+  const resumes = await fetchandCache("OK");
 
   return <RankLeaderboard resumes={resumes} />;
 }

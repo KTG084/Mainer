@@ -1,7 +1,7 @@
 import { auth } from "@/auth";
 import ResumeIndie from "@/components/ResumeIndie";
-import { prisma } from "@/db/prisma";
 import { Suspense } from "react";
+import { fetchandCache } from "./fetchFunc";
 export const dynamic = "force-dynamic";
 
 export default async function Page({
@@ -13,19 +13,21 @@ export default async function Page({
 
   const session = await auth();
 
-  const resumeData = await prisma.resumeEvaluation.findFirst({
-    where: {
-      resumesId: resumeId,
-    },
+  // const resumeData = await prisma.resumeEvaluation.findFirst({
+  //   where: {
+  //     resumesId: resumeId,
+  //   },
 
-    include: {
-      resume: {
-        include: {
-          user: true,
-        },
-      },
-    },
-  });
+  //   include: {
+  //     resume: {
+  //       include: {
+  //         user: true,
+  //       },
+  //     },
+  //   },
+  // });
+
+  const resumeData = await fetchandCache(resumeId);
 
   if (!session?.user?.id || !resumeId) {
     return (
