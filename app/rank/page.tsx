@@ -1,7 +1,6 @@
 import RankLeaderboard from "@/components/RankLeaderboard";
 import { prisma } from "@/db/prisma";
 
-export const dynamic = "force-dynamic";
 
 export default async function Rank() {
   const resumes = await prisma.resumes.findMany({
