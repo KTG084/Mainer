@@ -25,12 +25,12 @@ const RankLeaderboard = ({ resumes }: Props) => {
 
   const router = useRouter();
 
-  const rankedResumes = useMemo(() => {
-    return [...resumes].sort((a, b) => (b.ats ?? 0) - (a.ats ?? 0));
-  }, [resumes]);
+  // const rankedResumes = useMemo(() => {
+  //   return [...resumes].sort((a, b) => (b.ats ?? 0) - (a.ats ?? 0));
+  // }, [resumes]);
 
-  const topThree = rankedResumes.slice(0, 3);
-  const remainingResumes = rankedResumes.slice(3);
+  const topThree = resumes.slice(0, 3);
+  const remainingResumes = resumes.slice(3);
 
   const getRankIcon = (rank: number) => {
     switch (rank) {
@@ -49,7 +49,7 @@ const RankLeaderboard = ({ resumes }: Props) => {
     }
   };
 
-  if (rankedResumes.length === 0) {
+  if (resumes.length === 0) {
     return <div>No Resumes till now, Add Yours in the ATS Tab</div>;
   }
 

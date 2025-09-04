@@ -24,9 +24,7 @@ export async function fetchandCache(key: string) {
       },
     });
 
-    if (resumes) {
-      await client.set(key, JSON.stringify(resumes), "EX", 60 * 5);
-    }
+    await client.set(key, JSON.stringify(resumes), "EX", 60 * 5);
 
     return resumes;
   }

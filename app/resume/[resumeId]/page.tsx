@@ -1,9 +1,8 @@
 import { auth } from "@/auth";
-import ResumeIndie from "@/components/ResumeIndie";
-import { Suspense } from "react";
+import { lazy, Suspense } from "react";
 import { fetchandCache } from "./fetchFunc";
 export const dynamic = "force-dynamic";
-
+const LazyResumeIndie = lazy(() => import('@/components/ResumeIndie'));
 export default async function Page({
   params,
 }: {
@@ -46,14 +45,8 @@ export default async function Page({
   }
 
   return (
-    <Suspense
-      fallback={
-        <div className="text-emerald-600 flex items-center justify-center">
-          Loading
-        </div>
-      }
-    >
-      <ResumeIndie resumeData={resumeData} />
+    <Suspense fallback={<div>Loading resume analysis...</div>}>
+      <LazyResumeIndie resumeData_={resumeData} />
     </Suspense>
   );
 }

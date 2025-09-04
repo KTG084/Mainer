@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 import { Prisma } from "@prisma/client";
-import React, { useMemo } from "react";
+import React from "react";
 import {
   CheckCircle,
   File,
@@ -29,7 +29,7 @@ import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 import { useRouter } from "next/navigation";
 type Props = {
-  resumeData: ResumeData | null;
+  resumeData_: ResumeData | null;
 };
 interface AcademicPerformance {
   cgpa?: string | number;
@@ -40,8 +40,8 @@ interface SummaryData {
   areas_for_improvement?: string[];
   [key: string]: any;
 }
-const ResumeIndie = ({ resumeData }: Props) => {
-  const resumeData_ = useMemo(() => resumeData, [resumeData]);
+const ResumeIndie = ({ resumeData_ }: Props) => {
+  // const resumeData_ = useMemo(() => resumeData, [resumeData]);
   const router = useRouter();
 
   if (!resumeData_) {

@@ -2,12 +2,12 @@ import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import { SessionProvider } from "next-auth/react";
-import Navbar from "@/components/Navbar";
+
 import Footer from "@/components/Footer";
 import { Toaster } from "@/components/ui/sonner";
 import Particles from "@/components/Particles";
-import { Suspense } from "react";
-
+import { lazy, Suspense } from "react";
+const LazyNavbar = lazy(() => import("@/components/Navbar"));
 const geistSans = Geist({
   variable: "--font-geist-sans",
   subsets: ["latin"],
@@ -41,11 +41,9 @@ export default function RootLayout({
         <SessionProvider>
           <Toaster richColors />
           <Suspense fallback={null}>
-            <Navbar />
+            <LazyNavbar />
           </Suspense>
-          <main className="flex-grow pt-24">
-            {children}
-          </main>
+          <main className="flex-grow pt-24">{children}</main>
           <Footer />
         </SessionProvider>
         <div className="fixed top-0 left-0 w-full h-full -z-10 pointer-events-none">
