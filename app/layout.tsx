@@ -44,7 +44,7 @@ export default function RootLayout({
             <Navbar />
           </Suspense>
           <main className="flex-grow pt-24">
-            <Suspense>{children}</Suspense>
+            {children}
           </main>
           <Footer />
         </SessionProvider>
