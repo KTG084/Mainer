@@ -4,6 +4,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { v2 as cloudinary } from "cloudinary";
 import decodeScholar from "./decode";
 import { auth } from "@/auth";
+import { fetchandCache, invalidateResumeCache } from "@/app/rank/fetchRank";
 
 cloudinary.config({
   cloud_name: process.env.CLOUDINARY_CLOUD_NAME!,
@@ -139,6 +140,9 @@ export async function POST(req: NextRequest) {
       branch: schDetail.branch,
     },
   });
+
+   await invalidateResumeCache("OK");
+   await fetchandCache("OK");
 
   return NextResponse.json({
     status: 200,
