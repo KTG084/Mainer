@@ -29,3 +29,7 @@ export async function fetchandCache(key: string) {
     return resumes;
   }
 }
+
+export async function invalidateResumeCache(key: string) {
+  await client.del(key);
+}

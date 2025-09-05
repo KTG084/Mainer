@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import { auth } from "@/auth";
 import { prisma } from "@/db/prisma";
+import { fetchandCache, invalidateResumeCache } from "@/app/rank/fetchRank";
 
 export async function POST() {
   const session = await auth();
@@ -27,5 +28,7 @@ export async function POST() {
     }
   })
 
+  await invalidateResumeCache("OK");
+  await fetchandCache("OK");
   return new NextResponse(null, { status: 204 });
 }
