@@ -21,14 +21,18 @@ export async function POST() {
 
   await prisma.user.update({
     where: {
-      id: session.user.id
+      id: session.user.id,
     },
     data: {
-      schId: ""
-    }
-  })
+      schId: null,
+      branch: null,
+      batch: null,
+      rollNo: null,
+    },
+  });
 
   await invalidateResumeCache("OK");
   await fetchandCache("OK");
+  await invalidateResumeCache(session.user.resumeIds);
   return new NextResponse(null, { status: 204 });
 }
