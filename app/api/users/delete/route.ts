@@ -3,8 +3,10 @@ import { auth } from "@/auth";
 import { prisma } from "@/db/prisma";
 import { fetchandCache, invalidateResumeCache } from "@/app/rank/fetchRank";
 
-export async function POST() {
+export async function DELETE() {
   const session = await auth();
+
+
   if (!session?.user?.resumeIds?.length) {
     return NextResponse.json(
       {
@@ -34,5 +36,8 @@ export async function POST() {
   await invalidateResumeCache("OK");
   await fetchandCache("OK");
   await invalidateResumeCache(session.user.resumeIds);
-  return new NextResponse(null, { status: 204 });
+  return NextResponse.json({
+    success: true,
+    message: "User and resumes deleted successfully",
+  });
 }

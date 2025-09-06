@@ -25,6 +25,8 @@ const RankLeaderboard = ({ resumes }: Props) => {
 
   const router = useRouter();
 
+  console.log(resumes)
+
   // const rankedResumes = useMemo(() => {
   //   return [...resumes].sort((a, b) => (b.ats ?? 0) - (a.ats ?? 0));
   // }, [resumes]);

@@ -164,18 +164,49 @@ const Navbar = () => {
                     <DropdownMenuItem
                       onClick={async (e) => {
                         e.preventDefault();
-                        const res = await fetch("/api/users/delete", {
-                          method: "POST",
-                        });
 
-                        const data = await res.json();
+                        try {
+                          const res = await fetch("/api/users/delete", {
+                            method: "DELETE",
+                            headers: {
+                              "Content-Type": "application/json",
+                            },
+                          });
 
-                        if (!res.ok || data.error) {
-                          showToast.warning(data.message || "Deleter failed");
-                          return;
+                          if (!res.ok) {
+                            // Try to get error message
+                            try {
+                              const errorData = await res.json();
+                              showToast.warning(
+                                errorData.message || "Delete failed"
+                              );
+                            } catch {
+                              showToast.warning(`Delete failed: ${res.status}`);
+                            }
+                            return;
+                          }
+
+                          // Handle 204 No Content response
+                          if (res.status === 204) {
+                            showToast.info("User deleted successfully!");
+                            handleTabClick("resume");
+                            return;
+                          }
+
+                          // Handle JSON responses for other status codes
+                          const data = await res.json();
+
+                          if (data.error) {
+                            showToast.warning(data.message || "Delete failed");
+                            return;
+                          }
+
+                          showToast.info("User deleted successfully!");
+                          handleTabClick("resume");
+                        } catch (error) {
+                          console.error("Delete error:", error);
+                          showToast.error("Failed to delete user");
                         }
-                        showToast.info("Resume deleted successfully!");
-                        handleTabClick("resume")
                       }}
                       className="flex items-center gap-3 hover:bg-gradient-to-r hover:from-emerald-500/10 hover:to-emerald-400/5 px-4 py-3 rounded-xl transition-all duration-200 cursor-pointer group"
                     >
