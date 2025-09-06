@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import NextAuth, { Session } from "next-auth";
 import authConfig from "@/auth.config";
 import { JWT } from "next-auth/jwt";
@@ -5,8 +6,7 @@ import { PrismaAdapter } from "@auth/prisma-adapter";
 import { prisma } from "./db/prisma";
 import { Resumes, User } from "@prisma/client";
 
-
-export const { auth, handlers, signIn, signOut } = NextAuth({
+export const { auth, handlers, signIn, signOut, unstable_update } = NextAuth({
   callbacks: {
     async session({ session, token }: { session: Session; token: JWT }) {
       if (token.sub && session.user) {
@@ -16,14 +16,32 @@ export const { auth, handlers, signIn, signOut } = NextAuth({
         session.user.rollNo = token.rollNo as User["rollNo"];
         session.user.batch = token.batch as User["batch"];
         session.user.branch = token.branch as User["branch"];
-        session.user.resumeIds = token.resumeIds as Resumes["id"]
+        session.user.resumeIds = token.resumeIds as Resumes["id"];
       }
       return session;
     },
 
-    async jwt({ token }: { token: JWT }) {
+    async jwt({
+      token,
+      trigger,
+      session,
+    }: {
+      token: JWT;
+      trigger?: "signIn" | "signUp" | "update";
+      session?: any;
+    }) {
+      if (trigger === "update" && session) {
+      
+        return {
+          ...token,
+          ...session,
+          user: {
+            ...(token.user as object),
+            ...session.user,
+          },
+        };
+      }
       if (!token.sub) return token;
-
       const existingUser = await prisma.user.findUnique({
         where: { id: token.sub },
         select: {
@@ -35,8 +53,8 @@ export const { auth, handlers, signIn, signOut } = NextAuth({
           rollNo: true,
 
           Resumes: {
-            select: {id: true}
-          }
+            select: { id: true },
+          },
         },
       });
 
@@ -45,7 +63,7 @@ export const { auth, handlers, signIn, signOut } = NextAuth({
       return {
         ...token,
         ...existingUser,
-        resumeIds: existingUser.Resumes.map(r => r.id)
+        resumeIds: existingUser.Resumes.map((r) => r.id),
       };
     },
   },
